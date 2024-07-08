@@ -1,0 +1,6 @@
+<launch>
+    <node pkg="firsttry" type="visual_tb3_3.py" name="visual_tb3_3" output="screen"/>
+    <node pkg="firsttry" type="visual_tb3_0.py" name="visual_tb3_0" output="screen"/>
+    <node pkg="firsttry" type="p_and_p2_tb3_3.py" name="p_and_p2_tb3_3" output="screen"/>
+    <node pkg="firsttry" type="p_and_p2_tb3_0.py" name="p_and_p2_tb3_0" output="screen"/>
+</launch>

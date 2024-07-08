@@ -1,0 +1,27 @@
+Master as server , turtlebot as client, communication
+trutlebot as server, the other turtlebot as client, communication
+Master can call the service directly.
+Master is unneccessary to be a server.
+
+March 8 2024
+
+Write new service scripts for more complex communication.
+Try to make two client consistenyly receive message. Logically make sense, but exceed the maximum recursion depth (970 requests). Possible Solution: reduce the request frequency.
+
+March 11 2024
+Publish Topic "Twist" in Server.
+Subcribe Topic in Client on turtlebot.
+turtlebot can move by subscribing Topic.
+
+March 12 2024
+cmd_vel is and official portal to control the turtlebots
+one can add namespace before cmd_vel to specify which turtlebot is under control. (E.g. 'tb3_0/cmd_vel')
+Remember to bring up each turtlebot with different namespace
+Do not stop the bringup process. You can open another terminal window and remote access the turtlebot.
+publisher.publish is an one-time function. You need to publish multiple times to insure the movement can be observed.
+Tommorow: Try run each client with ROS Master. (Cannot)
+
+May 13th
+
+Recalculate the cos and sin.
+

@@ -1,0 +1,20 @@
+(cl:defpackage firsttry-srv
+  (:use )
+  (:export
+   "ADDTWOINTS"
+   "<ADDTWOINTS-REQUEST>"
+   "ADDTWOINTS-REQUEST"
+   "<ADDTWOINTS-RESPONSE>"
+   "ADDTWOINTS-RESPONSE"
+   "CHAT"
+   "<CHAT-REQUEST>"
+   "CHAT-REQUEST"
+   "<CHAT-RESPONSE>"
+   "CHAT-RESPONSE"
+   "MOVE"
+   "<MOVE-REQUEST>"
+   "MOVE-REQUEST"
+   "<MOVE-RESPONSE>"
+   "MOVE-RESPONSE"
+  ))
+

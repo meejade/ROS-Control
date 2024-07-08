@@ -1,0 +1,2 @@
+firsttry
+-DCATKIN_DEVEL_PREFIX=/home/turtle/Service_1/devel -DCMAKE_INSTALL_PREFIX=/home/turtle/Service_1/install -G Unix Makefiles

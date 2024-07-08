@@ -1,0 +1,8 @@
+prefix=/home/turtle/Service_1/install
+
+Name: firsttry
+Description: Description of firsttry
+Version: 0.0.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib -lfirsttry
+Requires: roscpp rospy std_msgs geometry_msgs nav_msgs message_runtime

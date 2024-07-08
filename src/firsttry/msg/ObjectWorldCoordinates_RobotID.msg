@@ -1,0 +1,2 @@
+string robot_id
+float32[] coordinates

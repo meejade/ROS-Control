@@ -1,0 +1,122 @@
+192.168.0.7 PC 10:3d:1c:cc:9c:32
+
+
+192.168.0.4 AMY e4:5f:01:db:df:74 tb3_0
+192.168.0.5 BOB e4:5f:01:db:e0:47 tb3_1
+192.168.0.3 CAT d8:3a:dd:81:b7:00 tb3_2
+192.168.0.x DOG e4:5f:01:7b:f4:c1 tb3_3
+
+192.168.235.3(3.7)
+
+192.168.45.3(3.8)
+
+ROS_NAMESPACE=tb3_0 roslaunch turtlebot3_bringup turtlebot3_robot.launch multi_robot_name:="tb3_0" set_lidar_frame_id:="tb3_0/base_scan"
+ROS_NAMESPACE=tb3_3 roslaunch turtlebot3_bringup turtlebot3_robot.launch multi_robot_name:="tb3_3" set_lidar_frame_id:="tb3_3/base_scan"
+
+  <node pkg="robot_state_publisher" name="first_tb3_robot_state_publisher" type="robot_state_publisher">
+  	<remap from="tb3_0/robot_description" to="tb3_0/sensors_description" />
+    	<param name="publish_frequency" type="double" value="50.0" />
+    	<param name="tf_prefix" type="string" value="" />
+  </node>
+  
+    <node pkg="robot_state_publisher" name="second_tb3_robot_state_publisher" type="robot_state_publisher">
+  	<remap from="tb3_1/robot_description" to="tb3_1/sensors_description" />
+    	<param name="publish_frequency" type="double" value="50.0" />
+    	<param name="tf_prefix" type="string" value="" />
+  </node>
+  
+    <node pkg="robot_state_publisher" name="third_tb3_robot_state_publisher" type="robot_state_publisher">
+  	<remap from="tb3_2/robot_description" to="tb3_2/sensors_description" />
+    	<param name="publish_frequency" type="double" value="50.0" />
+    	<param name="tf_prefix" type="string" value="" />
+  </node>
+  
+      <arg name="use_map_topic"   default="true"/>
+      
+      <node pkg="tf" name="first_tb3_broadcaster" type="static_transform_publisher" args="0 0 0 0 0 0 1  map tb3_0/odom  100"/>
+      
+        <node pkg="robot_state_publisher" name="tb3_0_robot_state_publisher" type="robot_state_publisher" />	
+        
+     
+ 
+
+  <!-- AMCL -->
+  <include file="$(find turtlebot3_navigation)/launch/amcl.launch"/>
+
+  <!-- move_base -->
+  <include file="$(find turtlebot3_navigation)/launch/move_base.launch">
+    <arg name="model" value="$(arg model)" />
+    <arg name="move_forward_only" value="$(arg move_forward_only)"/>
+  </include>
+<arg name="multi_robot_name" value="$(arg first_tb3)" />
+  </include>   
+        
+  <node pkg="tf" name="first_tb3_broadcaster" type="static_transform_publisher" args="0 0 0 0 0 0 1  map tb3_0/odom  100"/>
+        
+        
+   # PC     
+1. roscore
+
+2. ssh ubuntu@192.168.0.3  ssh ubuntu@192.168.0.4
+3.
+ # SBC
+# Dog
+ROS_NAMESPACE=tb3_3 roslaunch turtlebot3_bringup turtlebot3_robot.launch multi_robot_name:="tb3_3" set_lidar_frame_id:="tb3_3/base_scan"
+
+# Amy
+ROS_NAMESPACE=tb3_0 roslaunch turtlebot3_bringup turtlebot3_robot.launch multi_robot_name:="tb3_0" set_lidar_frame_id:="tb3_0/base_scan"
+
+4.
+ # SBC
+	# Dog
+ROS_NAMESPACE=tb3_3 roslaunch turtlebot3_manipulation_bringup turtlebot3_manipulation_bringup.launch
+	# Amy
+ROS_NAMESPACE=tb3_0 roslaunch turtlebot3_manipulation_bringup turtlebot3_manipulation_bringup.launch
+	
+5. # SBC
+roslaunch realsense2_camera rs_camera.launch
+ # PC
+6. roslaunch turtlebot3_navigation multi_turtlebot3_navigation_4.launch map_file:=$HOME/real_map.yaml
+ # PC
+7. roslaunch firsttry firsttry.launch
+
+PC rosrun firsttry turtlebot_control_server.py 1
+ 
+SBC rosrun firsttry turtlebot_control_client.py connect
+
+        
+# lidar pick 
+	subscribe "tb3_3/scan"
+	publish ObjectWorldCoordinates_RobotID msg [robot_id, coordinates]
+	
+rosrun firsttry lida_pick.py
+
+rostopic pub -1 tb3_3/place_object std_msgs/String "place:3"
+
+rosrun firsttry p_and_p2_tb3_3.py
+
+# visual 
+	subscribe "/tb3_3/detect_status" Expected format "start_detect:robot_id"
+        publish ObjectWorldCoordinates_RobotID msg [robot_id, coordinates]
+# p_and_p2
+	subscribe '/tb3_3/object_world_coordinates' # pick
+		  '/tb3_3/place_object' # place
+	publish '/tb3_3/action_status' "Action completed: {self.robot_id}" # pick
+		'/tb3_0/detect_status' # back to detect
+		'/tb3_0/place_status' "Placement completed: {self.robot_id}" # place
+      	
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
